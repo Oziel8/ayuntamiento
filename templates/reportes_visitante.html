@@ -16,7 +16,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Expediente</th>
+                        <th>Id solicitud</th>
                         <th>Solicitud</th>
                         <th>Acreditacion</th>
                         <th>Acta constitutiva</th>
@@ -24,22 +24,29 @@
                         <th>Ubicacion</th>
                         <th>Plano</th>
                         <th>Carta poder</th>
+                        <th>descripcion</th>
                         <th>estatus</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for reporte in reportes %}
+                    
                     <tr>
                         <td>{{reporte[0]}}</td>
-                        <td><a href="#">{{reporte[0]}} (solicitud.pdf) </a></td>
-                        <td><a href="#">{{reporte[1]}} (acreditacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[2]}} (acta_constitutiva.pdf) </a></td>
-                        <td><a href="#">{{reporte[3]}} (identificacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[4]}} (ubicacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[5]}} (plano.pdf) </a></td>
-                        <td><a href="#">{{reporte[6]}} (carta_poder.pdf) </a></td>
-                        <td><a href="#">{{reporte[7]}}  (estatus.pdf) </a></td>
+                        
+                        <td><a href="#"> (solicitud.pdf) </a></td>
+                        <td><a href="#"> (acreditacion.pdf) </a></td>
+                        <td><a href="#"> (acta_constitutiva.pdf) </a></td>
+                        <td><a href="#"> (identificacion.pdf) </a></td>
+                        <td><a href="#"> (ubicacion.pdf) </a></td>
+                        <td><a href="#"> (plano.pdf) </a></td>
+                        <td><a href="#"> (carta_poder.pdf) </a></td>
+                        <td>{{reporte[8]}}  </a></td>
+                        
+                        <td>{{reporte[9]}}  </a></td>
+                        
                     </tr>
+                   
                     {% endfor %}
                 </tbody>
             </table>

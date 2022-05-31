@@ -3,26 +3,29 @@
 {% block Title %} Subir documentos {% endblock Title %}
 
 {% block CSS %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
 
 <link rel="stylesheet" href="../static/css/formAdmin.css">
 {% endblock %}
 
 {% block Body %}
+<div class="tittle">
+    <h1>Agregar Documentos</h1>
+</div>
+
 <section class="section">
     <div class="columns">
     
-         <div class="tittle">
-                <h3>Agregar Documentos</h3>
-            </div>
+      
            
             <diV class="container">
 
-                <form class="forms" action="/capturaA" method="post" enctype="multipart/form-data">
+                <form class="forms" action="/captura" method="post" enctype="multipart/form-data">
                    
                     <div class="id">
                         <div class="mb-3">                           
                         
-                        <label for="id"><p class="fw-bold">Id</p></label>
+                        <label for="id"><p class="fw-bold">Id o folio de solicitud (Máximo 19 Dígitos)</p></label>
                         <input required type="number" class="form-control" placeholder="Id" name="id" id="id">
                      </div>
             
@@ -43,7 +46,7 @@
                     </div><br>
                     <div class="act">
                     <label for="actaconstitutiva"><p class="fw-bold">Acta Constitutiva</p></label>
-                    <input required type="file" class="form-control" placeholder="Acta Constitutiva" name="actaconstitutiva" id="actaconstitutiva">
+                    <input type="file" class="form-control" placeholder="Acta Constitutiva" name="actaconstitutiva" id="actaconstitutiva">
                     
                     </div><br>
                     <div class="iden">
@@ -61,21 +64,26 @@
                     <input required type="file" class="form-control" placeholder="Plano" name="plano" id="plano">
                     <div><br>
 
-                    <label for="descripcion"><p class="fw-bold">Descripcion</p></label>
-                    <div class="form-floating">
-                    <input required type="tex" class="form-control" placeholder="Descripcion" name="descripcion" id="descripcion">
-                    </div><br>
-
                     <div class="cart">
                     <label for="cartadepoder"><p class="fw-bold">Carta De Poder</p></label>
                     <input type="file" class="form-control" placeholder="Carta De Poder" name="cartadepoder" id="cartadepoder">
                     <br>
                     </div><br>
+
+                    <label for="descripcion"><p class="fw-bold">Descripcion</p></label>
+                    <div class="form-floating">
+                    <input required type="text" class="form-control" placeholder="Descripcion" name="descripcion" id="descripcion">
+                    </div><br>
+
+                    <label for="descripcion"><p class="fw-bold">Estatus</p></label>
+                    <input required type="text" class="form-control" placeholder="inicial, en proceso, finalizado" name="estatus" id="estatus">
+                    </div><br>
+
                         <div class="btn">
                         <input class="input" type="submit" value="Subir" id="subbtn">
                         </div>
                     </form>
-                
+                    <a href="{{url_for('home')}}" class="button is-primary mt-2">Volver</a>
             
             </diV>
     </div>

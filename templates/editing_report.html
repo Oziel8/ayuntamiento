@@ -12,28 +12,37 @@
 <section class="section">
     <div class="columns">
         <div class="column">
-            <h3 class="is-size-3">Editando reporte</h3>
+            <h2 class="is-size-2">Editando reporte</h2>
+            <h3>EDITAR UN CAMPO A LA VEZ***</h3>
+            <h3>ID/FOLIO, DESCRIPCIÓN Y ESTADO PUEDEN SER EDITADOS AL MISMO TIEMPO**</h3>
             <br>
+            <form action="/editando_reporte" method="post" enctype="multipart/form-data">
                     {% for reporte in reportes %}
+                    id o folio de solicitud (Máximo 19 Dígitos)
+                    <input type="hidden" name="real_id" id="real_id" value="{{reporte[0]}}">
+                    <input type="number" class="form-control" placeholder="id o folio" name="id" id="id" value="{{reporte[0]}}"><br><br>
                     solicitud.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[0]}}"><br><br>
+                    <input type="file" class="form-control" name="solicitud" id="solicitud""><br><br>
                     acreditacion.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[1]}}"><br><br>
+                    <input type="file" class="form-control" name="acreditacion" id="acreditacion""><br><br>
                     acta_constitutiva.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[2]}}"><br><br>
+                    <input type="file" class="form-control" name="acta_constitutiva" id="acta_constitutiva"><br><br>
                     identificacion.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[3]}}"><br><br>
+                    <input type="file" class="form-control" name="identificacion" id="identificacion"><br><br>
                     ubicacion.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[4]}}"><br><br>
+                    <input type="file" class="form-control" name="ubicacion" id="ubicacion"><br><br>
                     plano.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[5]}}"><br><br>
+                    <input type="file" class="form-control" name="plano" id="plano"><br><br>
                     carta_poder.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[6]}}"><br><br>
-                    estatus.pdf
-                    <input required type="file" class="form-control" placeholder="Solicitud" name="solicitud" id="solicitud" value="{{reporte[7]}}"><br><br>
+                    <input type="file" class="form-control" name="carta_poder" id="carta_poder"><br><br>
+                    descripcion
+                    <input type="text" class="form-control" placeholder="comentario" name="descripcion" id="descripcion" value="{{reporte[8]}}"><br><br>
+                    estatus
+                    <input type="text" class="form-control" placeholder="inicial, en proceso, finalizado" name="estatus" id="estatus" value="{{reporte[9]}}"><br><br>
                     {% endfor %}
-
-            <a href="{{url_for('home')}}" class="button is-primary mt-2">Volver</a>
+                    <input type="submit" class="button is-primary mt-2" value="Actualizar">
+                </form>
+            <a href="{{url_for('home')}}" class="button is-secondary mt-2">Volver</a>
         </div>
     </div>
 </section>

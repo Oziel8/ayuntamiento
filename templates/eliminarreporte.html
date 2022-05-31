@@ -16,8 +16,16 @@
                 <thead>
                     <tr>
                         <th>Eliminar</th>
-                        <th>Id</th>
+                        <th>Id solicitud</th>
                         <th>Solicitud</th>
+                        <th>Acreditacion</th>
+                        <th>Acta constitutiva</th>
+                        <th>Identificacion</th>
+                        <th>Ubicacion</th>
+                        <th>Plano</th>
+                        <th>Carta poder</th>
+                        <th>Descripcion</th>
+                        <th>estatus</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,18 +38,20 @@
                             </form>
                         </td>
                         <td>{{reporte[0]}}</td>
-                        <td><a href="#">{{reporte[0]}} (solicitud.pdf) </a></td>
-                        <td><a href="#">{{reporte[1]}} (acreditacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[2]}} (acta_constitutiva.pdf) </a></td>
-                        <td><a href="#">{{reporte[3]}} (identificacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[4]}} (ubicacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[5]}} (plano.pdf) </a></td>
-                        <td><a href="#">{{reporte[6]}} (carta_poder.pdf) </a></td>
-                        <td><a href="#">{{reporte[7]}}  (estatus.pdf) </a></td>
+                        <td><a href="#">solicitud.pdf</a></td>
+                        <td><a href="#">Acreditacion.pdf</a></td>
+                        <td><a href="#">Acta_constitutiva.pdf</a></td>
+                        <td><a href="#">Identificacion.pdf</a></td>
+                        <td><a href="#">Ubicacion.pdf</a></td>
+                        <td><a href="#">Plano.pdf</a></td>
+                        <td><a href="#">Carta_poder.pdf</a></td>
+                        <td>{{reporte[8]}}</td>
+                        <td>{{reporte[9]}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+           
             <a href="{{url_for('home')}}" class="button is-primary mt-2">Volver</a>
         </div>
     </div>

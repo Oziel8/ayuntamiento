@@ -16,7 +16,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Expediente</th>
+                        <th>Id solicitud</th>
                         <th>Solicitud</th>
                         <th>Acreditacion</th>
                         <th>Acta constitutiva</th>
@@ -24,22 +24,31 @@
                         <th>Ubicacion</th>
                         <th>Plano</th>
                         <th>Carta poder</th>
+                        <th>descripcion</th>
                         <th>estatus</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for reporte in reportes %}
+                    
                     <tr>
+                    <form action="" method="post">
                         <td>{{reporte[0]}}</td>
-                        <td><a href="#">{{reporte[0]}} (solicitud.pdf) </a></td>
-                        <td><a href="#">{{reporte[1]}} (acreditacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[2]}} (acta_constitutiva.pdf) </a></td>
-                        <td><a href="#">{{reporte[3]}} (identificacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[4]}} (ubicacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[5]}} (plano.pdf) </a></td>
-                        <td><a href="#">{{reporte[6]}} (carta_poder.pdf) </a></td>
-                        <td><a href="#">{{reporte[7]}}  (estatus.pdf) </a></td>
+                        
+                        <td><button value="{{reporte[1]}}">Descargar</button>solicitud.pdf</td>
+                        <td><button value="{{reporte[2]}}">Descargar</button>acreditacion.pdf</td>
+                        <td><button value="{{reporte[3]}}">Descargar</button>acta_constitutiva.pdf</td>
+                        <td><button value="{{reporte[4]}}">Descargar</button>identificacion.pdf</td>
+                        <td><button value="{{reporte[5]}}">Descargar</button>ubicacion.pdf</td>
+                        <td><button value="{{reporte[6]}}">Descargar</button>plano.pdf</td>
+                        <td><button value="{{reporte[7]}}">Descargar</button>carta_poder.pdf</td>
+                    
+                    </form>
+                        <td>{{reporte[8]}}  </a></td>
+                        <td>{{reporte[9]}}  </a></td>
+                        
                     </tr>
+                   
                     {% endfor %}
                 </tbody>
             </table>

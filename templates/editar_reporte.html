@@ -16,6 +16,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Editar</th>
                         <th>Expediente</th>
                         <th>Solicitud</th>
                         <th>Acreditacion</th>
@@ -24,26 +25,28 @@
                         <th>Ubicacion</th>
                         <th>Plano</th>
                         <th>Carta poder</th>
-                        <th>estatus</th>
-                        <th>Action</th>
+                        <th>Comentario</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for reporte in reportes %}
                     <tr>
-                        <td>{{reporte[0]}}</td>
-                        <td><a href="#">{{reporte[0]}} (solicitud.pdf) </a></td>
-                        <td><a href="#">{{reporte[1]}} (acreditacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[2]}} (acta_constitutiva.pdf) </a></td>
-                        <td><a href="#">{{reporte[3]}} (identificacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[4]}} (ubicacion.pdf) </a></td>
-                        <td><a href="#">{{reporte[5]}} (plano.pdf) </a></td>
-                        <td><a href="#">{{reporte[6]}} (carta_poder.pdf) </a></td>
-                        <td><a href="#">{{reporte[7]}}  (estatus.pdf) </a></td>
                         <td>
                             
-                            <a href="/edit_reporte/{{reporte[0]}}" target="_blank" rel="noopener noreferrer" class="button is-primary mt-2">Editar</a>
+                            <a href="/edit_reporte/{{reporte[0]}}" class="button is-primary mt-2">Editar</a>
                         </td>
+                        <td>{{reporte[0]}}</td>
+                        <td><a href="#">(solicitud.pdf) </a></td>
+                        <td><a href="#">(acreditacion.pdf) </a></td>
+                        <td><a href="#">(acta_constitutiva.pdf) </a></td>
+                        <td><a href="#">(identificacion.pdf) </a></td>
+                        <td><a href="#">(ubicacion.pdf) </a></td>
+                        <td><a href="#">(plano.pdf) </a></td>
+                        <td><a href="#">(carta_poder.pdf) </a></td>
+                        <td>{{reporte[8]}}</td>
+                        <td>{{reporte[9]}}</td>
+                      
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -83,4 +83,6 @@ input[type="file"]{
 .tittle{
     background-color: #cf2e2e;
     color: var(--color-details-w);
+    font-size: 35px;
+    
 }
