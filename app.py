@@ -7,7 +7,7 @@ from datetime import timedelta
 from functools import wraps
 
 
-conn = mysql.connector.connect(host="localhost", port="3306", user="root", password="Password123*", database="townhall")
+conn = mysql.connector.connect(host="localhost", port="3306", user="root", password="", database="ayuntamiento")
 cursor= conn.cursor()
 
 app = Flask(__name__)
@@ -148,6 +148,11 @@ def formularioCapturista():
 def formularioAdministrador():
     return render_template('formularioAdministrador.html')
 
+@app.route('/deleted_reports')
+@admin_required
+def deleted_reports():
+    respaldos = controlador.obtener_respaldo()
+    return render_template('view_deleted_reports.html', respaldos = respaldos)
 
 @app.route('/reportesA')
 @admin_required
@@ -165,32 +170,25 @@ def captura():
             file3 =request.files['identificacion']
             file4 =request.files['ubicacion']
             file5 =request.files['plano']
+            
             blob = base64.b64encode(file.read())
             blob1 = base64.b64encode(file1.read())
             blob2 = base64.b64encode(file2.read())
             blob3 = base64.b64encode(file3.read())
             blob4 = base64.b64encode(file4.read())
             blob5 = base64.b64encode(file5.read())
+            
             id = request.form['id']
             descripcion = request.form['descripcion']
-            query='INSERT INTO `1.solicitud` (`idsolicitud`,`solicitud`) VALUES (%s,%s)'
-            query1='INSERT INTO `2.acreditacion` (`document`,`idtipo_titulo`) VALUES (%s,%s)'
-            query2='INSERT INTO `3.acta_constitutiva` (`acta`,`idaplicable`) VALUES (%s,%s)'
-            query3='INSERT INTO `4.identificacion` (`identificacion_pdf`,`idtipo_de_identificacion`) VALUES (%s,%s)'
-            query4='INSERT INTO `5.ubicacion` (`ubicacion_pdf`,`link_ubi`) VALUES (%s,%s)'
-            query5='INSERT INTO `6.plano` (`plano_pdf`,`descripcion`) VALUES (%s,%s)'
-            query6='INSERT INTO `7.carta_poder` (`cartapoder_pdf`,`id_aplicable`) VALUES (%s,%s)'
+            estatus = request.form['estatus']
+
+            query='INSERT INTO `expediente` (`idsolicitud`,`solicitud`,`acreditacion`,`acta_constitutiva`,`identificacion`,`ubicacion`,`plano`,`descripcion`,`estatus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+           
             if blob:
-                value = None
-                cursor.execute(query,(id,blob,))
-                cursor.execute(query1,(blob1,3,))
-                cursor.execute(query2,(blob2,1,))
-                cursor.execute(query3,(blob3,1,))
-                cursor.execute(query4,(blob4,"Base de datos",))
-                cursor.execute(query5,(blob5,descripcion,))
-                cursor.execute(query6,(value,1,))
+                cursor.execute(query,(id,blob,blob1,blob2,blob3,blob4,blob5,descripcion,estatus))
                 conn.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('capturista'))
+
         else:
             file = request.files['solicitud']
             file1 =request.files['acreditacion']
@@ -208,23 +206,14 @@ def captura():
             blob6 = base64.b64encode(file6.read())
             id = request.form['id']
             descripcion = request.form['descripcion']
-            query='INSERT INTO `1.solicitud` (`idsolicitud`,`solicitud`) VALUES (%s,%s)'
-            query1='INSERT INTO `2.acreditacion` (`document`,`idtipo_titulo`) VALUES (%s,%s)'
-            query2='INSERT INTO `3.acta_constitutiva` (`acta`,`idaplicable`) VALUES (%s,%s)'
-            query3='INSERT INTO `4.identificacion` (`identificacion_pdf`,`idtipo_de_identificacion`) VALUES (%s,%s)'
-            query4='INSERT INTO `5.ubicacion` (`ubicacion_pdf`,`link_ubi`) VALUES (%s,%s)'
-            query5='INSERT INTO `6.plano` (`plano_pdf`,`descripcion`) VALUES (%s,%s)'
-            query6='INSERT INTO `7.carta_poder` (`cartapoder_pdf`,`id_aplicable`) VALUES (%s,%s)'
+            estatus = request.form['estatus']
+
+            query='INSERT INTO `expediente` (`idsolicitud`,`solicitud`,`acreditacion`,`acta_constitutiva`,`identificacion`,`ubicacion`,`plano`,`carta_poder`,`descripcion`,`estatus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+           
             if blob:
-                cursor.execute(query,(id,blob,))
-                cursor.execute(query1,(blob1,3,))
-                cursor.execute(query2,(blob2,1,))
-                cursor.execute(query3,(blob3,1,))
-                cursor.execute(query4,(blob4,"Base de datos",))
-                cursor.execute(query5,(blob5,descripcion,))
-                cursor.execute(query6,(blob6,1,))
+                cursor.execute(query,(id,blob,blob1,blob2,blob3,blob4,blob5,blob6,descripcion,estatus))
                 conn.commit()
-                return redirect(url_for('home'))
+                return redirect(url_for('capturista'))
             else:
                 return '<h1> Fallo </h1>'
 
@@ -239,32 +228,25 @@ def capturaA():
             file3 =request.files['identificacion']
             file4 =request.files['ubicacion']
             file5 =request.files['plano']
+            
             blob = base64.b64encode(file.read())
             blob1 = base64.b64encode(file1.read())
             blob2 = base64.b64encode(file2.read())
             blob3 = base64.b64encode(file3.read())
             blob4 = base64.b64encode(file4.read())
             blob5 = base64.b64encode(file5.read())
+            
             id = request.form['id']
             descripcion = request.form['descripcion']
-            query='INSERT INTO `1.solicitud` (`idsolicitud`,`solicitud`) VALUES (%s,%s)'
-            query1='INSERT INTO `2.acreditacion` (`document`,`idtipo_titulo`) VALUES (%s,%s)'
-            query2='INSERT INTO `3.acta_constitutiva` (`acta`,`idaplicable`) VALUES (%s,%s)'
-            query3='INSERT INTO `4.identificacion` (`identificacion_pdf`,`idtipo_de_identificacion`) VALUES (%s,%s)'
-            query4='INSERT INTO `5.ubicacion` (`ubicacion_pdf`,`link_ubi`) VALUES (%s,%s)'
-            query5='INSERT INTO `6.plano` (`plano_pdf`,`descripcion`) VALUES (%s,%s)'
-            query6='INSERT INTO `7.carta_poder` (`cartapoder_pdf`,`id_aplicable`) VALUES (%s,%s)'
+            estatus = request.form['estatus']
+
+            query='INSERT INTO `expediente` (`idsolicitud`,`solicitud`,`acreditacion`,`acta_constitutiva`,`identificacion`,`ubicacion`,`plano`,`descripcion`,`estatus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+           
             if blob:
-                value = None
-                cursor.execute(query,(id,blob,))
-                cursor.execute(query1,(blob1,3,))
-                cursor.execute(query2,(blob2,1,))
-                cursor.execute(query3,(blob3,1,))
-                cursor.execute(query4,(blob4,"Base de datos",))
-                cursor.execute(query5,(blob5,descripcion,))
-                cursor.execute(query6,(value,1,))
+                cursor.execute(query,(id,blob,blob1,blob2,blob3,blob4,blob5,descripcion,estatus))
                 conn.commit()
-            return redirect(url_for('capturista'))
+            return redirect(url_for('home'))
+
         else:
             file = request.files['solicitud']
             file1 =request.files['acreditacion']
@@ -282,25 +264,17 @@ def capturaA():
             blob6 = base64.b64encode(file6.read())
             id = request.form['id']
             descripcion = request.form['descripcion']
-            query='INSERT INTO `1.solicitud` (`idsolicitud`,`solicitud`) VALUES (%s,%s)'
-            query1='INSERT INTO `2.acreditacion` (`document`,`idtipo_titulo`) VALUES (%s,%s)'
-            query2='INSERT INTO `3.acta_constitutiva` (`acta`,`idaplicable`) VALUES (%s,%s)'
-            query3='INSERT INTO `4.identificacion` (`identificacion_pdf`,`idtipo_de_identificacion`) VALUES (%s,%s)'
-            query4='INSERT INTO `5.ubicacion` (`ubicacion_pdf`,`link_ubi`) VALUES (%s,%s)'
-            query5='INSERT INTO `6.plano` (`plano_pdf`,`descripcion`) VALUES (%s,%s)'
-            query6='INSERT INTO `7.carta_poder` (`cartapoder_pdf`,`id_aplicable`) VALUES (%s,%s)'
+            estatus = request.form['estatus']
+
+            query='INSERT INTO `expediente` (`idsolicitud`,`solicitud`,`acreditacion`,`acta_constitutiva`,`identificacion`,`ubicacion`,`plano`,`carta_poder`,`descripcion`,`estatus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+           
             if blob:
-                cursor.execute(query,(id,blob,))
-                cursor.execute(query1,(blob1,3,))
-                cursor.execute(query2,(blob2,1,))
-                cursor.execute(query3,(blob3,1,))
-                cursor.execute(query4,(blob4,"Base de datos",))
-                cursor.execute(query5,(blob5,descripcion,))
-                cursor.execute(query6,(blob6,1,))
+                cursor.execute(query,(id,blob,blob1,blob2,blob3,blob4,blob5,blob6,descripcion,estatus))
                 conn.commit()
-                return redirect(url_for('capturista'))
+                return redirect(url_for('home'))
             else:
                 return '<h1> Fallo </h1>'
+
 
 @app.route('/reportes')
 def reportes():
@@ -317,14 +291,225 @@ def edit_reporte(id):
     reportes = controlador.getting_report(id)
     return render_template('editing_report.html', reportes=reportes)
 
+
+
+@app.route('/editando_reporte', methods=['POST'])
+def editing_report_admin():
+    if request.method == 'POST':
+        if not request.files.get('solicitud') \
+        and not request.files.get('acreditacion')\
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('plano') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY ID/FOLIO
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            data = (new_id, description, status, real_id)
+            cursor.execute(query,data)
+            conn.commit()
+            return redirect(url_for('editar_reporte'))
+        elif not request.files.get('acreditacion')\
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('plano') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY SOLICITUD
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['solicitud']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, solicitud=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))
+
+        elif not request.files.get('solicitud')\
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('plano') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY ACREDITACION
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['acreditacion']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, acreditacion=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))
+
+        elif not request.files.get('solicitud')\
+        and not request.files.get('acreditacion') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('plano') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY ACTA CONSTITUTIVA
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['acta_constitutiva']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, acta_constitutiva=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))
+
+        elif not request.files.get('solicitud')\
+        and not request.files.get('acreditacion') \
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('plano') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY IDENTIFICACION
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['identificacion']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, identificacion=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))    
+
+        elif not request.files.get('solicitud')\
+        and not request.files.get('acreditacion') \
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('plano') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY IDENTIFICACION
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['ubicacion']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, ubicacion=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))
+
+        elif not request.files.get('solicitud')\
+        and not request.files.get('acreditacion') \
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('carta_poder'):
+            #UPDATE ONLY IDENTIFICACION
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['plano']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, plano=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))
+
+        elif not request.files.get('solicitud')\
+        and not request.files.get('acreditacion') \
+        and not request.files.get('acta_constitutiva') \
+        and not request.files.get('identificacion') \
+        and not request.files.get('ubicacion') \
+        and not request.files.get('plano'):
+            #UPDATE ONLY IDENTIFICACION
+            new_id = request.form['id']
+            real_id = request.form['real_id']
+            file = request.files['carta_poder']
+            blob = base64.b64encode(file.read())
+            description = request.form['descripcion']
+            status = request.form['estatus']
+            query="UPDATE expediente SET idsolicitud =%s, carta_poder=%s, descripcion = %s, estatus=%s WHERE idsolicitud = %s"
+            if blob:
+                cursor.execute(query,(new_id,blob,description,status, real_id))
+                conn.commit()
+                return redirect(url_for('editar_reporte'))
+
+
+
 @app.route('/eliminar')
 def eliminar():
     reportes = controlador.obtener_reporte()
-    return render_template('eliminarreporte.html', reportes=reportes)
+    solicitudes = controlador.obtener_solicitud()
+    acreditaciones = controlador.obtener_acreditacion()
+    actas = controlador.obtener_acta()
+    identificaciones = controlador.obtener_identificacion()
+    ubicaciones = controlador.obtener_ubicacion()
+    planos = controlador.obtener_plano()
+    cartas = controlador.obtener_carta()
+    descripcion = controlador.obtener_descripcion()
+    estatus = controlador.obtener_estatus()
+    return render_template('eliminarreporte.html', reportes=reportes, solicitudes=solicitudes, acreditaciones=acreditaciones, actas=actas, identificaciones= identificaciones, ubicaciones=ubicaciones, planos=planos, cartas=cartas, descripcion=descripcion, estatus=estatus)
 
 @app.route("/eliminar_reporte", methods=["POST"])
 def eliminar_reporte():
     controlador.eliminar_reporte(request.form["id"])
+    return redirect("/eliminar")
+
+@app.route("/eliminar_reporte", methods=["POST"])
+def eliminar_solicitud():
+    controlador.eliminar_solicitud(request.form["solicitud"])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_acreditacion', methods=["POST"])
+def eliminar_acreditacion():
+    controlador.eliminar_acreditacion(request.form['acreditacion'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_acta', methods=["POST"])
+def eliminar_acta():
+    controlador.eliminar_acta(request.form['actaconstitutiva'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_identificacion', methods=["POST"])
+def eliminar_identificacion():
+    controlador.eliminar_identificacion(request.form['identificacion'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_ubicacion', methods=["POST"])
+def eliminar_ubicacion():
+    controlador.eliminar_ubicacion(request.form['ubicacion'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_plano', methods=["POST"])
+def eliminar_plano():
+    controlador.eliminar_plano(request.form['plano'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_carta', methods=["POST"])
+def eliminar_carta():
+    controlador.eliminar_carta_poder(request.form['cartadepoder'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_carta', methods=["POST"])
+def eliminar_descripcion():
+    controlador.eliminar_carta_poder(request.form['descripcion'])
+    return redirect("/eliminar")
+
+@app.route('/eliminar_carta', methods=["POST"])
+def eliminar_estatus():
+    controlador.eliminar_carta_poder(request.form['estatus'])
     return redirect("/eliminar")
 
 
@@ -349,9 +534,9 @@ def logout_guest():
 
 #Handling Errors
 
-@app.errorhandler(400)
-def handle_bad_request(e):
-    return render_template('eerror-400.html'), 400
+#@app.errorhandler(400)
+#def handle_bad_request(e):
+#    return render_template('error-400.html'), 400
 
 @app.errorhandler(403)
 def handle_bad_request(e):
@@ -370,6 +555,11 @@ def method_not_found(error):
     return render_template('error-405.html'), 405
 
 
+
+@app.route('/descargar_pdf')
+@capturist_required
+def download():
+    return
 
 if __name__ == "__main__":
     app.run(debug=True) 
